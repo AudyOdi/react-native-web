@@ -11,6 +11,7 @@
 
 import flattenStyle from './flattenStyle';
 import StyleRegistry from './registry';
+import {getStyle} from '../../modules/createDOMProps';
 
 // allow component styles to be editable in React Dev Tools
 if (process.env.NODE_ENV !== 'production') {
@@ -40,6 +41,7 @@ const StyleSheet = {
         StyleSheetValidation.validateStyle(key, styles);
       }
       result[key] = StyleRegistry.register(styles[key]);
+      result[key].className = getStyle(styles[key]);
     });
     return result;
   },

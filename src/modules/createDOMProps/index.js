@@ -119,4 +119,21 @@ const createDOMProps = (rnProps, resolveStyle) => {
   return domProps;
 };
 
+export function getStyle(props, resolveStyle) {
+  const resolveStyleFunc = resolveStyle || resolver;
+  const {style: rnStyle, pointerEvents} = props;
+  const role = AccessibilityUtil.propsToAriaRole(props);
+  const pointerEventStyle = pointerEvents !== undefined && pointerEventStyles[pointerEvents];
+  const reactNativeStyle = [
+    (role === 'button' && styles.buttonReset) ||
+      (role === 'link' && styles.linkReset) ||
+      (role === 'list' && styles.listReset),
+    rnStyle,
+    pointerEventStyle
+  ];
+  const { className, style } = resolveStyleFunc(reactNativeStyle) || emptyObject;
+
+  return {className, style};
+}
+
 export default createDOMProps;
